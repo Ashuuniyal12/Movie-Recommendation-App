@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             findViewById<Button>(R.id.button) // here field could have been null so binding cant be used.
 
 
-        /*created a csv file of all avilable movie name and used those for showing while entering */
+        /*created a csv file of all available movie name and used those for showing while entering */
         val openResource: InputStream = resources.openRawResource(R.raw.movienames)
         val bufferReader: BufferedReader = openResource.bufferedReader()
         var line: String = bufferReader.readLine()
@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity() {
     private fun loadSimilarMovies(movieName: String) {
 
         val progressbar = findViewById<ProgressBar>(R.id.progressbar)
-        val queue = Volley.newRequestQueue(this)
         val url: String = MainUrl + movieName
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null, { response ->
             val movieNameList = response.getJSONObject("similarMovie")
@@ -166,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 // Access the RequestQueue through your singleton class.
-        queue.add(jsonObjectRequest)
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
 
     fun seekbarlistner() {
